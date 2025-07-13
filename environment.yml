@@ -1,0 +1,17 @@
+# environment.yml
+name: fruit-classifier
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.12
+  - pip
+  - pytorch>=2.3
+  - torchvision>=0.18
+  - fiftyone>=0.23
+  - ipykernel>=6.29
+  - jupyterlab
+  - pip:
+    - -r requirements.txt
+
