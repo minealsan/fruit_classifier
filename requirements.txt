@@ -7,4 +7,4 @@ pillow>=10.0
 tqdm>=4.66
 wandb>=0.17
 kaggle>=1.5.12
-
+seaborn>=0.13.2
