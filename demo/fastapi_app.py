@@ -1,4 +1,3 @@
-``python
 # fastapi_app.py
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -51,3 +50,4 @@ async def predict(file: UploadFile = File(...)):
     })
 
 # To run: uvicorn fastapi_app:app --host 0.0.0.0 --port 8000
+# Or: uvicorn demo.fastapi_app:app --host 0.0.0.0 --port 8000
