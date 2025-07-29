@@ -1,4 +1,4 @@
-# cloudbuild.yaml for deploying the Fruit Classifier to Google Cloud
+# cloudbuild.yaml for deploying the Fruit Classifier to Google Cloud Build
 
 # Substitute your model artifact path here (can be overridden in the Trigger)
 substitutions:
@@ -7,7 +7,7 @@ substitutions:
 # Tell Cloud Build which secrets to fetch
 secrets:
 - secretEnv:
-    WANDB_API_KEY: projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest
+    WANDB_API_KEY: "projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest" 
 
 
 steps:
