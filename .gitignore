@@ -11,6 +11,7 @@
 /exported/
 /artifacts/ 
 /demo/resnet18_fruit_inference.pth
+/demo/models/best_model.pth
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
