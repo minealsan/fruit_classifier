@@ -1,0 +1,32 @@
+# cloudbuild.yaml
+substitutions:
+  _REGION: "europe-west1"
+  _SERVICE: "fruit-classifier"
+
+steps:
+# 1) Build & push your container
+- name: "gcr.io/cloud-builders/docker"
+  args:
+    [
+      "build",
+      "-t", "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA",
+      "-t", "gcr.io/$PROJECT_ID/fruit-classifier:latest",
+      "-f", "demo/Dockerfile",
+      "demo/"
+    ]
+
+images:
+  - "gcr.io/$PROJECT_ID/$_SERVICE:$SHORT_SHA"
+  - "gcr.io/$PROJECT_ID/$_SERVICE:latest"
+
+# 2) Deploy to Cloud Run
+- name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+  entrypoint: "bash"
+  args:
+    - "-c"
+    - |
+      gcloud run deploy $_SERVICE \
+        --image gcr.io/$PROJECT_ID/$_SERVICE:$SHORT_SHA \
+        --region $_REGION \
+        --platform managed \
+        --allow-unauthenticated
