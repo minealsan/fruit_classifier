@@ -1,10 +1,17 @@
 # cloudbuild.yaml
+
+# Substitute your model artifact path here (can be overridden in the Trigger)
 substitutions:
-  _REGION: "europe-west1"
-  _SERVICE: "fruit-classifier"
+  _MODEL_PATH: "minealsan-dsr/fruit-classifier/resnet18-fruit-best:v1"
+
+# Tell Cloud Build which secrets to fetch
+secrets:
+- secretEnv:
+    WANDB_API_KEY: projects/YOUR_PROJECT_ID/secrets/WANDB_API_KEY/versions/latest
+
 
 steps:
-# 1) Build & push your container
+# 1) Build & push your container, using demo/ as the context
 - name: "gcr.io/cloud-builders/docker"
   args:
     [
@@ -12,21 +19,23 @@ steps:
       "-t", "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA",
       "-t", "gcr.io/$PROJECT_ID/fruit-classifier:latest",
       "-f", "demo/Dockerfile",
-      "demo/"
+      "demo/",
     ]
 
-images:
-  - "gcr.io/$PROJECT_ID/$_SERVICE:$SHORT_SHA"
-  - "gcr.io/$PROJECT_ID/$_SERVICE:latest"
-
-# 2) Deploy to Cloud Run
+# 2) Deploy to Cloud Run (no need to reference demo/ here—you're just pointing at the already-built image)
 - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
   entrypoint: "bash"
   args:
-    - "-c"
+    - -c
     - |
-      gcloud run deploy $_SERVICE \
-        --image gcr.io/$PROJECT_ID/$_SERVICE:$SHORT_SHA \
-        --region $_REGION \
+      gcloud run deploy fruit-classifier \
+        --image gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA \
+        --region europe-west1 \
         --platform managed \
-        --allow-unauthenticated
+        --allow-unauthenticated \
+        --port 8080 \
+        --set-env-vars MODEL_PATH=$_MODEL_PATH
+
+images:
+  - "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA"
+  - "gcr.io/$PROJECT_ID/fruit-classifier:latest"
