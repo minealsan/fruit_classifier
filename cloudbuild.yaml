@@ -7,7 +7,7 @@ substitutions:
 # Tell Cloud Build which secrets to fetch
 secrets:
 - secretEnv:
-    WANDB_API_KEY: projects/YOUR_PROJECT_ID/secrets/WANDB_API_KEY/versions/latest
+    WANDB_API_KEY: projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest
 
 
 steps:
