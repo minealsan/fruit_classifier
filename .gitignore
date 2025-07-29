@@ -13,6 +13,9 @@
 /demo/resnet18_fruit_inference.pth
 /demo/models/best_model.pth
 
+# Ignore environment files
+clean-env/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -220,3 +223,4 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+clean-env/bin/python3.12
