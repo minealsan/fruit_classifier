@@ -1,4 +1,4 @@
-# cloudbuild.yaml
+# cloudbuild.yaml for deploying the Fruit Classifier to Cloud Run
 
 # Substitute your model artifact path here (can be overridden in the Trigger)
 substitutions:
