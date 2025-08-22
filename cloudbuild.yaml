@@ -6,7 +6,7 @@ substitutions:
 availableSecrets:
   secretManager:
   - versionName: "projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest"
-    env: ["WANDB_API_KEY"]
+    env: "WANDB_API_KEY"
 
 steps:
 # 1) Build & push
