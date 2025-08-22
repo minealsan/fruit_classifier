@@ -12,7 +12,6 @@ availableSecrets:
     env: "WANDB_API_KEY"
 
 steps:
-# Build & push
 - name: gcr.io/cloud-builders/docker
   args:
     - build
@@ -24,22 +23,18 @@ steps:
     - demo/Dockerfile
     - demo/
 
-# Deploy to Cloud Run
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: bash
-  # secretManager put WANDB_API_KEY into the build env, available here
   args:
     - -c
     - |
-      # Note: $_MODEL_PATH is a Cloud Build substitution,
-      #       but $WANDB_API_KEY is a normal shell env var
       gcloud run deploy fruit-classifier \
         --image gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA \
         --region europe-west1 \
         --platform managed \
         --allow-unauthenticated \
         --port 8080 \
-        --set-env-vars MODEL_PATH=$_MODEL_PATH,WANDB_API_KEY=$WANDB_API_KEY
+        --set-env-vars MODEL_PATH=$_MODEL_PATH,WANDB_API_KEY=\$WANDB_API_KEY
 
 images:
   - "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA"
