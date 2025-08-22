@@ -12,7 +12,7 @@ availableSecrets:
       env: "WANDB_API_KEY"
 
 steps:
-  # 1) Build & push
+  # 1) Build the image with two tags
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -24,7 +24,13 @@ steps:
       - demo/Dockerfile
       - demo/
 
-  # 2) Deploy to Cloud Run (now consuming the secret)
+  # 2) Push the freshly built images
+  - name: gcr.io/cloud-builders/docker
+    args: ["push", "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA"]
+  - name: gcr.io/cloud-builders/docker
+    args: ["push", "gcr.io/$PROJECT_ID/fruit-classifier:latest"]
+
+  # 3) Deploy to Cloud Run (now the image exists)
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: bash
     secretEnv:
