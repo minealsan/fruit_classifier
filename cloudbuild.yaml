@@ -44,6 +44,7 @@ steps:
           --platform managed \
           --allow-unauthenticated \
           --port 8080 \
+          --memory 1Gi \
           --set-env-vars MODEL_PATH=$_MODEL_PATH,WANDB_API_KEY=$$WANDB_API_KEY
 
 images:
