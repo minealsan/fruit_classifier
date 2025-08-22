@@ -9,7 +9,7 @@ availableSecrets:
     env: ["WANDB_API_KEY"]
 
 steps:
-# 1) Build & push your container
+# 1) Build & push
 - name: gcr.io/cloud-builders/docker
   args:
     - build
@@ -21,10 +21,9 @@ steps:
     - demo/Dockerfile
     - demo/
 
-# 2) Deploy to Cloud Run, pulling in the secret
+# 2) Deploy to Cloud Run (secret is available automatically)
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: bash
-  secretEnv: ["WANDB_API_KEY"]
   args:
     - -c
     - |
@@ -34,9 +33,7 @@ steps:
         --platform managed \
         --allow-unauthenticated \
         --port 8080 \
-        --set-env-vars \
-           MODEL_PATH=$_MODEL_PATH, \
-           WANDB_API_KEY=$WANDB_API_KEY
+        --set-env-vars MODEL_PATH=$_MODEL_PATH,WANDB_API_KEY=$WANDB_API_KEY
 
 images:
   - "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA"
