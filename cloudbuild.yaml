@@ -3,6 +3,10 @@
 substitutions:
   _MODEL_PATH: "minealsan-dsr/fruit-classifier/resnet18-fruit-best:v1"
 
+# When using a custom service account, you must opt out of the default GCS logs bucket
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
 availableSecrets:
   secretManager:
   - versionName: "projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest"
