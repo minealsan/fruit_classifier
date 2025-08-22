@@ -3,12 +3,13 @@
 substitutions:
   _MODEL_PATH: "minealsan-dsr/fruit-classifier/resnet18-fruit-best:v1"
 
-secrets:
-- secretEnv:
-  WANDB_API_KEY: projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest
+availableSecrets:
+  secretManager:
+  - versionName: "projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest"
+    env: ["WANDB_API_KEY"]
 
 steps:
-# 1) Build & push your Docker image from demo/
+# 1) Build & push your container
 - name: gcr.io/cloud-builders/docker
   args:
     - build
@@ -20,10 +21,10 @@ steps:
     - demo/Dockerfile
     - demo/
 
-# 2) Deploy to Cloud Run
+# 2) Deploy to Cloud Run, pulling in the secret
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: bash
-  secretEnv: [ "WANDB_API_KEY" ]
+  secretEnv: ["WANDB_API_KEY"]
   args:
     - -c
     - |
@@ -33,7 +34,9 @@ steps:
         --platform managed \
         --allow-unauthenticated \
         --port 8080 \
-        --set-env-vars MODEL_PATH=$_MODEL_PATH
+        --set-env-vars \
+           MODEL_PATH=$_MODEL_PATH, \
+           WANDB_API_KEY=$WANDB_API_KEY
 
 images:
   - "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA"
