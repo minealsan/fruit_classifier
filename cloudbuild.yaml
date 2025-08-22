@@ -3,17 +3,16 @@
 substitutions:
   _MODEL_PATH: "minealsan-dsr/fruit-classifier/resnet18-fruit-best:v1"
 
-# When using a custom service account, you must opt out of the default GCS logs bucket
 options:
   logging: CLOUD_LOGGING_ONLY
-  
+
 availableSecrets:
   secretManager:
   - versionName: "projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest"
     env: "WANDB_API_KEY"
 
 steps:
-# 1) Build & push
+# Build & push
 - name: gcr.io/cloud-builders/docker
   args:
     - build
@@ -25,12 +24,15 @@ steps:
     - demo/Dockerfile
     - demo/
 
-# 2) Deploy to Cloud Run (secret is available automatically)
+# Deploy to Cloud Run
 - name: gcr.io/google.com/cloudsdktool/cloud-sdk
   entrypoint: bash
+  # secretManager put WANDB_API_KEY into the build env, available here
   args:
     - -c
     - |
+      # Note: $_MODEL_PATH is a Cloud Build substitution,
+      #       but $WANDB_API_KEY is a normal shell env var
       gcloud run deploy fruit-classifier \
         --image gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA \
         --region europe-west1 \
