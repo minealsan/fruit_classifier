@@ -23,14 +23,16 @@ Upload an image of a fruit and get the predicted class in real time. 🍏🍊�
 ---
 
 ## 🗂️ Repository Structure
-
-├── fruit_classifier.ipynb # Main training notebook
-├── requirements.txt # pip dependencies
-├── environment.yml # conda environment
-├── cloudbuild.yaml # optional CI/CD config
-├── demo/ # (optional) demo app files
-├── images/ # confusion matrices, reports, sample outputs
-└── references/ # papers, notes, links
+```text
+.
+├── fruit_classifier.ipynb     # Main training notebook
+├── requirements.txt           # pip dependencies
+├── environment.yml            # conda environment
+├── cloudbuild.yaml            # optional CI/CD config
+├── demo/                      # (optional) demo app files
+├── images/                    # confusion matrices, reports, sample outputs
+└── references/                # papers, notes, links
+```
 
 ---
 
@@ -60,6 +62,7 @@ jupyter lab
 
 Organize your dataset like:
 
+```text
 data/
 ├── train/
 │   ├── apple/...
@@ -73,7 +76,7 @@ data/
     ├── apple/...
     ├── banana/...
     └── ...
-
+```
 
 Update dataset paths in the notebook.
 
