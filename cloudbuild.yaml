@@ -5,7 +5,7 @@ substitutions:
 
 secrets:
 - secretEnv:
-    WANDB_API_KEY: projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest
+  WANDB_API_KEY: projects/my-fruit-api/secrets/WANDB_API_KEY/versions/latest
 
 steps:
 # 1) Build & push your Docker image from demo/
