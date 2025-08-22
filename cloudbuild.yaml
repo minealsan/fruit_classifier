@@ -34,7 +34,7 @@ steps:
         --platform managed \
         --allow-unauthenticated \
         --port 8080 \
-        --set-env-vars MODEL_PATH=$_MODEL_PATH,WANDB_API_KEY=\$WANDB_API_KEY
+        --set-env-vars MODEL_PATH=$_MODEL_PATH,WANDB_API_KEY=$$WANDB_API_KEY
 
 images:
   - "gcr.io/$PROJECT_ID/fruit-classifier:$SHORT_SHA"
